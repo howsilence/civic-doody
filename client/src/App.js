@@ -1,24 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect } from "react";
+import Map from './components/Map';
 
 function App() {
+  //test code making sure our server and client are talking
   const [count, setCount] = useState(0);
-
   useEffect(() => {
     fetch("/hello")
       .then((r) => r.json())
       .then((data) => setCount(data.count));
   }, []);
 
-
-
-
-
-
-
-
-
+  
   return (
     <div className="App">
       <h1>Page Count: {count}</h1>
@@ -36,6 +30,8 @@ function App() {
           Learn React
         </a>
       </header>
+      <Map />
+      <script href=""></script>
     </div>
   );
 }
