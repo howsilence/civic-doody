@@ -1,33 +1,59 @@
 import React from 'react'
+import { GoogleMap, LoadScript} from '@react-google-maps/api';
+
+const containerStyle = {
+    width: '400px',
+    height: '400px'
+    };
+
+    const center = {
+        lat: 40.7053, 
+        lng: 74.0139
+    };
+
 
 
 function Map(){
+    // const [map, setMap] = useState("")
+//     // const apiKey = "AIzaSyCLkYEQ8R10b5_KgzFHhUKZMkaN3KkjBHs"
+//     const mapId = "80829c3ba6592d3f"
+// //begin actual code:
+//     function initMap() {
+//         new google.maps.Map(document.getElementById("map"), {
+//         mapId: mapId,
+//         center: { lat: 40.70, lng: 74.01 },
+//         zoom: 12,
+//     });
+//     }
 
-    const apiKey = "AIzaSyCLkYEQ8R10b5_KgzFHhUKZMkaN3KkjBHs"
-    const mapId = "80829c3ba6592d3f"
-//begin actual code:
-    function initMap() {
-        new google.maps.Map(document.getElementById("map"), {
-        mapId: mapId,
-        center: { lat: 40.70, lng: 74.01 },
-        zoom: 12,
-    });
-    }
+// let map;
 
-    initMap
+// function initMap() {
+//   map = new google.maps.Map(document.getElementById("map"), {
+//     center: { lat: -34.397, lng: 150.644 },
+//     zoom: 8,
+//   });
+// }
+
+  
+  
+  
 
 
-
-    return(
-        <div className="map">
-            <script
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLkYEQ8R10b5_KgzFHhUKZMkaN3KkjBHs&callback=initMap&v=weekly"
-                async
-            >
-
-            </script>
-        </div>
-    )
+      return (
+        <LoadScript
+          googleMapsApiKey="AIzaSyCLkYEQ8R10b5_KgzFHhUKZMkaN3KkjBHs"
+        >
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={10}
+          >
+            { /* Child components, such as markers, info windows, etc. */ }
+            <></>
+          </GoogleMap>
+        </LoadScript>
+      )
 }
 
-export default Map
+export default Map;

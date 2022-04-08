@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect } from "react";
 import Map from './components/Map';
+// import MapContainer from './components/MapContainer';
 
 function App() {
   //test code making sure our server and client are talking
@@ -31,7 +32,7 @@ function App() {
         </a>
       </header>
       <Map />
-      <script href=""></script>
+      
     </div>
   );
 }
