@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect } from "react";
 import Map from './components/Map';
+import LocationForm from './components/LocationForm';
 // import MapContainer from './components/MapContainer';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <LocationForm />
       <Map />
       
     </div>
