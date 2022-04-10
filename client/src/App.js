@@ -3,7 +3,6 @@ import './App.css';
 import { useState, useEffect } from "react";
 import Map from './components/Map';
 import LocationForm from './components/LocationForm';
-// import MapContainer from './components/MapContainer';
 
 function App() {
   //test code making sure our server and client are talking

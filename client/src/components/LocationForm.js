@@ -22,7 +22,7 @@ function LocationForm({}){
         e.preventDefault();
         setErrors([]);
         setIsLoading(true);
-          fetch("/location/create", {
+          fetch("/locations", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
