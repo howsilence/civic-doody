@@ -48,7 +48,7 @@ function LocationForm({}){
           <section className="form">
             <div className="center">
 	            
-              <h2>Create Location</h2>
+              <h2>Report A Poo</h2>
               <form onSubmit={handleSubmit}>
                 <input
                   type="text"

@@ -7,14 +7,7 @@ import Header from './components/Header';
 import UserSignUp from './components/UserSignUp';
 
 function App() {
-  //test code making sure our server and client are talking
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    fetch("/hello")
-      .then((r) => r.json())
-      .then((data) => setCount(data.count));
-  }, []);
-
+  // handles users and auth
   const [usersList, setUsersList] = useState([]);
   useEffect(() => {
     fetch("http://localhost:4000/users/")
@@ -24,16 +17,11 @@ function App() {
         setUsersList(usersArr);
       });
   }, []);
-  console.log(usersList)
-
-
 
   function handleAddUser(newUser) {
     const updatedUsersArray = [...usersList, newUser];
     setUsersList(updatedUsersArray);
   }
-
-
   //setting state for our session, auto login
   const [user, setUser] = useState(null);
   useEffect(() => {
@@ -43,11 +31,7 @@ function App() {
       }
     });
   }, []);
-
-
-
-
-
+  //logout function
   function handleLogoutClick() {
     fetch("/logout", { method: "DELETE" }).then((r) => {
       if (r.ok) {
@@ -55,34 +39,33 @@ function App() {
       }
     });
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  //start location fetching info
+  const [locationsArr, setLocationsArr] = useState([])
+  useEffect(() => {
+    fetch("http://localhost:4000/locations/")
+      .then((r) => r.json())
+      .then((locationsObj) => {
+        console.log(locationsObj)
+        setLocationsArr(locationsObj);
+      });
+  }, []);
+  function handleAddLocation(newLocation) {
+    const updatedLocationsArray = [...locationsArr, newLocation];
+    setLocationsArr(updatedLocationsArray);
+  }
   
   return (
     <BrowserRouter>
-    <div className="App">
-    <Header logout={handleLogoutClick} user={user} setUser={setUser} />
-    <h1>Page Count: {count}</h1>
+    <div className="container">
+          <div className="controls">
+            <h1>Civic Doody</h1>
+            <h2>{user ? `Welcome back! ${user}` : "Feel free to look around"}</h2>
+            <Header logout={handleLogoutClick} user={user} setUser={setUser} />
+            <LocationForm />
+          </div>
+      
+        <Map array={locationsArr} setState={setLocationsArr} className="map" />
      
-      <LocationForm />
-      <Map />
-    
       <Switch>
         <Route path="/signup">
           <UserSignUp onAddUser={handleAddUser} />
