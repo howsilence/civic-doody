@@ -112,7 +112,7 @@ function Map({}){
               )
             })
          }
-         {
+         {/* {
             selected.location && 
             (
               <InfoWindow
@@ -123,7 +123,7 @@ function Map({}){
               <p>{selected.name}</p>
             </InfoWindow>
             )
-         }
+         } */}
               
               
              

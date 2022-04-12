@@ -5,6 +5,7 @@ import Map from './components/Map';
 import LocationForm from './components/LocationForm';
 import Header from './components/Header';
 import UserSignUp from './components/UserSignUp';
+import UserLogin from './components/UserLogin';
 
 function App() {
   // handles users and auth
@@ -57,9 +58,9 @@ function App() {
     <div className="container">
           <div className="controls">
             <h1>Civic Doody 💩</h1>
-            <h2>{user ? `Welcome back! ${user}` : "You Must Have An Account To Contribute"}</h2>
+            <h2>{user ? `Welcome back! ${user.username}` : "You Must Have An Account To Contribute"}</h2>
             <Header logout={handleLogoutClick} user={user} onLogin={setUser} />
-           {user ? <LocationForm /> : null }
+           {user ? <LocationForm /> :  <UserLogin  user={user} onLogin={setUser}/> }
           </div>
       
         <Map locations={locations} className="map" />
