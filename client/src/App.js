@@ -6,6 +6,7 @@ import LocationForm from './components/LocationForm';
 import Header from './components/Header';
 import UserSignUp from './components/UserSignUp';
 import UserLogin from './components/UserLogin';
+import LocationTable from './components/LocationTable';
 
 function App() {
   // handles users and auth
@@ -70,6 +71,9 @@ function App() {
         <Map locations={locations}  className="map" />
      
       <Switch>
+      <Route path="/locationstable">
+          <LocationTable locations={locations} />
+        </Route>
         <Route path="/signup">
           <UserSignUp onAddUser={handleAddUser} />
         </Route>

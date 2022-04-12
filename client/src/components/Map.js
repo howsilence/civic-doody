@@ -7,7 +7,7 @@ import { GoogleMap, LoadScript, Marker, InfoWindow, Circle} from '@react-google-
     height: '100vh'
     };
 
-    const locations = [
+    const places = [
       {
         name: "Location 1",
         location: { 
@@ -47,9 +47,8 @@ import { GoogleMap, LoadScript, Marker, InfoWindow, Circle} from '@react-google-
     
   
  
-function Map({}){
+function Map({locations}){
   const center = useMemo(() => ({  lat: 40.7053, lng: -74.0139}),[]);
-  //const center = {  lat: 40.7053, lng: -74.0139};
   const options = useMemo(() =>({ disableDefaultUI: true, clickableIcons: false, mapId: '80829c3ba6592d3f'}),[]);
   const [ selected, setSelected ] = useState({});
   const [ currentPosition, setCurrentPosition ] = useState({})
@@ -70,14 +69,6 @@ function Map({}){
       setSelected(item);
     }
 
-    // const onMarkerDragEnd = (e) => {
-    //   const lat = e.latLng.lat();
-    //   const lng = e.latLng.lng();
-    //   setCurrentPosition({ lat, lng})
-    // };
-   
-
-
       return (
           <LoadScript
             googleMapsApiKey="AIzaSyAqrlzhy6dWslfaHwhGbn1a6eYNzOOnVV4"
@@ -91,26 +82,28 @@ function Map({}){
               zoom={17}
               options={options}
             >
-              {<>
-             /* Child components, such as markers, info windows, etc. */ 
+            {<>
+            
              {
-            currentPosition.lat ? 
-            <Circle
-            position={currentPosition}
-            // onDragEnd={(e) => onMarkerDragEnd(e)}
-            // draggable={true} 
-            radius={1500}
-
-            /> :
-            null
-          }
-             {
+              <Circle
+              position={currentPosition.lat ? currentPosition : center}
+              radius={1500}
+              />
+            }
+             {/* {
             locations.map(item => {
+              return (
+              <Marker key={item.name} position={(LatLng = (item.lat + item.lng))} onClick={() => onSelect(item)}/>
+              )
+            })
+           } */}
+            {
+            places.map(item => {
               return (
               <Marker key={item.name} position={item.location} onClick={() => onSelect(item)}/>
               )
             })
-         }
+           }
          {
             selected.location && 
             (
@@ -126,7 +119,7 @@ function Map({}){
               
               
              
-              </>}
+          </>}
             </GoogleMap>
           </LoadScript>
         
