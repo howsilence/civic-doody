@@ -1,5 +1,5 @@
 import React, {useMemo, useState, useEffect} from 'react';
-import { GoogleMap, LoadScript, Marker, InfoWindow} from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, InfoWindow, Circle} from '@react-google-maps/api';
 
 
   const containerStyle = {
@@ -70,11 +70,11 @@ function Map({}){
       setSelected(item);
     }
 
-    const onMarkerDragEnd = (e) => {
-      const lat = e.latLng.lat();
-      const lng = e.latLng.lng();
-      setCurrentPosition({ lat, lng})
-    };
+    // const onMarkerDragEnd = (e) => {
+    //   const lat = e.latLng.lat();
+    //   const lng = e.latLng.lng();
+    //   setCurrentPosition({ lat, lng})
+    // };
    
 
 
@@ -95,10 +95,13 @@ function Map({}){
              /* Child components, such as markers, info windows, etc. */ 
              {
             currentPosition.lat ? 
-            <Marker
+            <Circle
             position={currentPosition}
-            onDragEnd={(e) => onMarkerDragEnd(e)}
-            draggable={true} /> :
+            // onDragEnd={(e) => onMarkerDragEnd(e)}
+            // draggable={true} 
+            radius={1500}
+
+            /> :
             null
           }
              {
