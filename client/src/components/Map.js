@@ -75,11 +75,7 @@ function Map({}){
       const lng = e.latLng.lng();
       setCurrentPosition({ lat, lng})
     };
-    // function handleAddLocation(newLocation) {
-    //   const updatedLocations = [...locations, newLocation];
-    //   setLocations(updatedLocations);
-    // }
-
+   
 
 
       return (
@@ -112,7 +108,7 @@ function Map({}){
               )
             })
          }
-         {/* {
+         {
             selected.location && 
             (
               <InfoWindow
@@ -123,7 +119,7 @@ function Map({}){
               <p>{selected.name}</p>
             </InfoWindow>
             )
-         } */}
+         }
               
               
              

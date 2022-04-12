@@ -51,6 +51,10 @@ function App() {
            setLocations(locationsObj);
          });
      }, []);
+      function handleAddLocation(newLocation) {
+      const updatedLocations = [...locations, newLocation];
+      setLocations(updatedLocations);
+    }
 
   
   return (
@@ -60,10 +64,10 @@ function App() {
             <h1>Civic Doody 💩</h1>
             <h2>{user ? `Welcome back! ${user.username}` : "You Must Have An Account To Contribute"}</h2>
             <Header logout={handleLogoutClick} user={user} onLogin={setUser} />
-           {user ? <LocationForm /> :  <UserLogin  user={user} onLogin={setUser}/> }
+           {user ? <LocationForm onAddLocation={handleAddLocation} /> :  <UserLogin  user={user} onLogin={setUser}/> }
           </div>
       
-        <Map locations={locations} className="map" />
+        <Map locations={locations}  className="map" />
      
       <Switch>
         <Route path="/signup">
