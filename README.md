@@ -1,20 +1,3 @@
 # README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-    2.7.5
-* System dependencies
-
-* Configuration
-
-* Database creation
-    postgreSQL database
-* Database initialization
-
-* How to run the test suite
-
+CIVIC DOODY : A WEB APPLICATION FOR REPORTING AND RECTIFYING DIRTY STREETS DUE TO DOG POO
 

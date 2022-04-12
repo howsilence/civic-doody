@@ -13,10 +13,10 @@ function App() {
     fetch("http://localhost:4000/users/")
       .then((r) => r.json())
       .then((usersArr) => {
-        console.log(usersArr)
         setUsersList(usersArr);
       });
   }, []);
+  console.log(usersList)
 
   function handleAddUser(newUser) {
     const updatedUsersArray = [...usersList, newUser];
@@ -39,32 +39,30 @@ function App() {
       }
     });
   }
-  //start location fetching info
-  const [locationsArr, setLocationsArr] = useState([])
-  useEffect(() => {
-    fetch("http://localhost:4000/locations/")
-      .then((r) => r.json())
-      .then((locationsObj) => {
-        console.log(locationsObj)
-        setLocationsArr(locationsObj);
-      });
-  }, []);
-  function handleAddLocation(newLocation) {
-    const updatedLocationsArray = [...locationsArr, newLocation];
-    setLocationsArr(updatedLocationsArray);
-  }
+     //start location fetching info
+     const [ locations, setLocations ] = useState([])
+
+     useEffect(() => {
+       fetch("http://localhost:4000/locations/")
+         .then((r) => r.json())
+         .then((locationsObj) => {
+       
+           setLocations(locationsObj);
+         });
+     }, []);
+
   
   return (
     <BrowserRouter>
     <div className="container">
           <div className="controls">
-            <h1>Civic Doody</h1>
-            <h2>{user ? `Welcome back! ${user}` : "Feel free to look around"}</h2>
-            <Header logout={handleLogoutClick} user={user} setUser={setUser} />
-            <LocationForm />
+            <h1>Civic Doody 💩</h1>
+            <h2>{user ? `Welcome back! ${user}` : "You Must Have An Account To Contribute"}</h2>
+            <Header logout={handleLogoutClick} user={user} onLogin={setUser} />
+           {user ? <LocationForm /> : null }
           </div>
       
-        <Map array={locationsArr} setState={setLocationsArr} className="map" />
+        <Map locations={locations} className="map" />
      
       <Switch>
         <Route path="/signup">

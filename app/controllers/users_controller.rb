@@ -13,8 +13,7 @@ class UsersController < ApplicationController
     end
 
     def index
-        users = User.all
-        render json: users, status: :ok
+        render json: User.all, status: :ok
     end
 
     private

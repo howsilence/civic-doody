@@ -5,4 +5,8 @@ class Location < ApplicationRecord
     validates :lng, presence: true
     validates :name, presence: true
 
+    def LatLng
+       return self.lat, self.lng
+    end
+
 end

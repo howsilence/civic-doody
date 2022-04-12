@@ -11,9 +11,9 @@ function Header({logout, user}) {
 					<a href="/"><img className="site-logo" src="" alt=""/></a>
 
 					<div className="form-inline">
-							<a className="nav-link" href="/signup"><button className="btn btn-outline-white mr-2" type="button">Sign Up</button></a>
-
-							<a className="nav-link" href="/login"><button onClick={logout} className="btn btn-outline-white mr-2" type="button">{(user) ? "LOGOUT" : "LOGIN"}</button></a>
+							<a className="nav-link" href="/login"><button onClick={logout} className="btn btn-outline-white mr-2" type="button">{(user) ? "Logout" : "Login"}</button></a>
+							
+							{(user) ? null : <a className="nav-link" href="/signup"><button className="btn btn-outline-white mr-2" type="button">Sign Up</button></a>}
 
 					</div>
 
