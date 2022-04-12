@@ -1,7 +1,7 @@
 
 import React, {useState} from 'react'
 
-function LocationForm({}){
+function LocationForm({onAddLocation}){
 
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");

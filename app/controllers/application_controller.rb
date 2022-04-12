@@ -1,12 +1,12 @@
 class ApplicationController < ActionController::API
-    include ActionController::Cookies
+  include ActionController::Cookies
 
-    rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
-    rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
+  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+  rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
   
-    # before_action :authorize
+  # before_action :authorize
    
-    private
+  private
   
     def render_unprocessable_entity_response(invalid)
       render json: {errors: invalid.record.errors.full_messages}, status: :unprocessable_entity
@@ -23,12 +23,8 @@ class ApplicationController < ActionController::API
     #   render json: { errors: ["Not authorized"] }, status: :unauthorized unless @current_user
     # end
 
-    
+   
     #CREATES TEST FOLLOW IN CONFIG/ROUTES
-    def hello_world
-        session[:count] = (session[:count] || 0) + 1
-        render json: { count: session[:count] }
-      end
-
+   
 
 end

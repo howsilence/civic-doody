@@ -38,7 +38,7 @@ function UserSignUp({onAddUser}){
         <div className="formContainer">
           <section className="form">
             <div className="center">
-	            <h1 className="formh1">Are you a Super Pooper Scooper?</h1>
+	            <h1 className="formh1">Become a Super Pooper Scooper?</h1>
 	            <hr className="formHr" />
 
               <form onSubmit={handleSubmit}>

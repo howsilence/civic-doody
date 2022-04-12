@@ -1,5 +1,5 @@
-import React, {useMemo} from 'react';
-import { GoogleMap, LoadScript, Marker, Circle, MarkerClusterer} from '@react-google-maps/api';
+import React, {useMemo, useState, useEffect} from 'react';
+import { GoogleMap, LoadScript, Marker, InfoWindow, Circle} from '@react-google-maps/api';
 
 
   const containerStyle = {
@@ -7,25 +7,76 @@ import { GoogleMap, LoadScript, Marker, Circle, MarkerClusterer} from '@react-go
     height: '100vh'
     };
 
-    // const latLngLiteral = google.maps.latLngLiteral
+    const locations = [
+      {
+        name: "Location 1",
+        location: { 
+          lat: 40.7053,
+          lng: -74.0131 
+        },
+      },
+      {
+        name: "Location 2",
+        location: { 
+          lat: 40.7053,
+          lng: -74.0134
+        },
+      },
+      {
+        name: "Location 3",
+        location: { 
+          lat: 40.7053,
+          lng: -74.0130
+        },
+      },
+      {
+        name: "Location 4",
+        location: { 
+          lat: 40.7053,
+          lng: -74.0135
+        },
+      },
+      {
+        name: "Location 5",
+        location: { 
+          lat: 40.7053,
+          lng: -74.0139
+        },
+      }
+    ];
+    
   
  
-function Map({array, setState}){
+function Map({}){
   const center = useMemo(() => ({  lat: 40.7053, lng: -74.0139}),[]);
-  const options = useMemo(() =>({ disableDefaultUI: true, clickableIcons: false, mapId: '80829c3ba6592d3f'}),[])
+  //const center = {  lat: 40.7053, lng: -74.0139};
+  const options = useMemo(() =>({ disableDefaultUI: true, clickableIcons: false, mapId: '80829c3ba6592d3f'}),[]);
+  const [ selected, setSelected ] = useState({});
+  const [ currentPosition, setCurrentPosition ] = useState({})
 
-//   <MarkerClusterer>
-//   {(clusterer) =>
-//     array.map((location) => (
-//       <Marker
-//         key={location.lat + location.lng}
-//         position={location}
-//         clusterer={clusterer}
+  const success = position => {
+    const currentPosition = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    }
+    setCurrentPosition(currentPosition);
+  };
+  
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(success);
+  })
+ 
+  const onSelect = item => {
+      setSelected(item);
+    }
 
-//       />
-//     ))
-//   }
-// </MarkerClusterer>
+    // const onMarkerDragEnd = (e) => {
+    //   const lat = e.latLng.lat();
+    //   const lng = e.latLng.lng();
+    //   setCurrentPosition({ lat, lng})
+    // };
+   
+
 
       return (
           <LoadScript
@@ -36,13 +87,43 @@ function Map({array, setState}){
               
               mapContainerStyle={containerStyle}
               mapContainerClassName="map-container"
-              center={center}
+              center={currentPosition.lat ? currentPosition : center}
               zoom={17}
               options={options}
-            >{<>
+            >
+              {<>
              /* Child components, such as markers, info windows, etc. */ 
-              <Marker position={center} onClick={setState} />
-              <Circle center={center} raidus={1500} options={closeOptions} />
+             {
+            currentPosition.lat ? 
+            <Circle
+            position={currentPosition}
+            // onDragEnd={(e) => onMarkerDragEnd(e)}
+            // draggable={true} 
+            radius={1500}
+
+            /> :
+            null
+          }
+             {
+            locations.map(item => {
+              return (
+              <Marker key={item.name} position={item.location} onClick={() => onSelect(item)}/>
+              )
+            })
+         }
+         {
+            selected.location && 
+            (
+              <InfoWindow
+              position={selected.location}
+              clickable={true}
+              onCloseClick={() => setSelected({})}
+            >
+              <p>{selected.name}</p>
+            </InfoWindow>
+            )
+         }
+              
               
              
               </>}
@@ -52,21 +133,5 @@ function Map({array, setState}){
       )
 }
 
-const defaultOptions = {
-  strokeOpacity: 0.5,
-  strokeWeight: 2,
-  clickable: false,
-  draggable: false,
-  editable: false,
-  visible: true,
-};
-
-const closeOptions = {
-  ...defaultOptions,
-  zIndex: 3,
-  fillOpacity: 0.05,
-  strokeColor: "#8BC34A",
-  fillColor: "#8BC34A",
-};
 
 export default React.memo(Map);
