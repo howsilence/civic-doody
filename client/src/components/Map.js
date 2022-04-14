@@ -1,5 +1,5 @@
-import React, {useMemo, useState, useEffect} from 'react';
-import { GoogleMap, LoadScript, Marker, InfoWindow, Circle} from '@react-google-maps/api';
+import React, {useMemo, useState, useEffect, useRef} from 'react';
+import { GoogleMap, LoadScript, Marker, InfoWindow} from '@react-google-maps/api';
 
   //this styles the map -- could move this to .css file
   const containerStyle = {
@@ -8,55 +8,58 @@ import { GoogleMap, LoadScript, Marker, InfoWindow, Circle} from '@react-google-
     };
 
     //hard coded test for markers
-    const places = [
-      {
-        name: "Location 1",
-        location: { 
-          lat: 40.7053,
-          lng: -74.0131 
-        },
-      },
-      {
-        name: "Location 2",
-        location: { 
-          lat: 40.7053,
-          lng: -74.0134
-        },
-      },
-      {
-        name: "Location 3",
-        location: { 
-          lat: 40.7053,
-          lng: -74.0130
-        },
-      },
-      {
-        name: "Location 4",
-        location: { 
-          lat: 40.7053,
-          lng: -74.0135
-        },
-      },
-      {
-        name: "Location 5",
-        location: { 
-          lat: 40.7053,
-          lng: -74.0139
-        },
-      }
-    ];
+    // const places = [
+    //   {
+    //     name: "Location 1",
+    //     location: { 
+    //       lat: 40.7053,
+    //       lng: -74.0131 
+    //     },
+    //   },
+    //   {
+    //     name: "Location 2",
+    //     location: { 
+    //       lat: 40.7053,
+    //       lng: -74.0134
+    //     },
+    //   },
+    //   {
+    //     name: "Location 3",
+    //     location: { 
+    //       lat: 40.7053,
+    //       lng: -74.0130
+    //     },
+    //   },
+    //   {
+    //     name: "Location 4",
+    //     location: { 
+    //       lat: 40.7053,
+    //       lng: -74.0135
+    //     },
+    //   },
+    //   {
+    //     name: "Location 5",
+    //     location: { 
+    //       lat: 40.7053,
+    //       lng: -74.0139
+    //     },
+    //   }
+    // ];
     
   
  
 function Map({locations}){
   //centers the map on flatiron
-  const center = useMemo(() => ({  lat: 40.7053, lng: -74.0139}),[]);
+  // const center = useMemo(() => ({  lat: 40.7053, lng: -74.0139}),[]);
   //options for the map
   const options = useMemo(() =>({ disableDefaultUI: true, clickableIcons: false, mapId: '80829c3ba6592d3f'}),[]);
   //sets the piece of the map as selected
   const [ selected, setSelected ] = useState({});
   //sets the current location of the user as state
   const [ currentPosition, setCurrentPosition ] = useState({})
+  // sets ref for the markers
+  const markerRef = useRef(null);
+  console.log(currentPosition)
 
   // converts geolocator position into lat long
   const success = position => {
@@ -67,23 +70,24 @@ function Map({locations}){
     setCurrentPosition(currentPosition);
   };
 
-  // const success = useMemo((position) => ({ 
-  //   const currentPosition = {
-  //     lat: position.coords.latitude,
-  //     lng: position.coords.longitude
-  // }))
+
   // fetches current user's position through google maps geolocation
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(success);
-  })
+  },[])
  
   //sets state for the currently clicked icon
   const onSelect = item => {
       setSelected(item);
     }
 
+    const onMarkerDragEnd = (e) => {
+      const lat = e.latLng.lat();
+      const lng = e.latLng.lng();
+      setCurrentPosition({ lat, lng})
+      console.log(currentPosition)
+    };
 
-    console.log(locations);
 
       return (
           <LoadScript
@@ -94,74 +98,65 @@ function Map({locations}){
               
               mapContainerStyle={containerStyle}
               mapContainerClassName="map-container"
-              center={currentPosition.lat ? currentPosition : center}
+              draggable={true}
+              // center={currentPosition.lat ? currentPosition : center}
+              center={currentPosition}
               zoom={17}
               options={options}
+              
             >
             {<>
-            
-             {
-              <Circle
-              position={currentPosition.lat ? currentPosition : center}
-              radius={1500}
-              options={defaultOptions}
-              />
-            }
-             {
+              {
+            currentPosition.lat ? 
+            <Marker
+            position={currentPosition}
+            onDragEnd={(e) => onMarkerDragEnd(e)}
+            ref={() => markerRef}
+            draggable={true} /> :
+            null
+          }
+          {
             locations.map(item => {
               const LatLng = {
                 lat: item.lat,
                 lng: item.lng
               }
               return (
-              <Marker key={item.name} position={LatLng} onClick={() => onSelect(item)}/>
+              <Marker  
+              key={item.id}  
+              position={LatLng} 
+              onClick={() => onSelect(item)}
+              label={LatLng.toString()}
+              />
               )
             })
-           }
-            {
-            places.map(item => {
-              return (
-              <Marker key={item.name} position={item.location} onClick={() => onSelect(item)}/>
-              )
-            })
-           }
+          }
          {
-            selected.location && 
+            selected.item ?
             (
               <InfoWindow
-              position={selected.location}
-              clickable={true}
+              position={selected.item}
               onCloseClick={() => setSelected({})}
             >
-              <p>{selected.name}</p>
+              <div className="infowindow">
+                <p>{selected.name}</p>
+                <img src='client/public/assets/emojipoo.svg' className="small-image" alt="rental"/>
+                <p>Latitude: {selected.lat}</p>
+                <p>Longitude: {selected.lng}</p>
+                <p>Description: {selected.name}</p>
+              </div>
             </InfoWindow>
-            )
-         }
-              
-              
-             
+            ) : null
+          }
+               
           </>}
-            </GoogleMap>
-          </LoadScript>
+
+          </GoogleMap>
+        </LoadScript>
         
       )
 }
 
-const defaultOptions = {
-  strokeOpacity: 0.5,
-  strokeWeight: 2,
-  clickable: false,
-  draggable: false,
-  editable: false,
-  visible: true,
-};
-const closeOptions = {
-  ...defaultOptions,
-  zIndex: 3,
-  fillOpacity: 0.05,
-  strokeColor: "#8BC34A",
-  fillColor: "#8BC34A",
-};
 
 
 export default React.memo(Map);

@@ -11,13 +11,6 @@ function LocationForm({onAddLocation}){
   const [isLoading, setIsLoading] = useState(false);
 
 
-  function takeData(locationObj){
-    console.log(locationObj)
-    // console.log(user)
-  }
-  
-
-
     function handleSubmit(e) {
         e.preventDefault();
         setErrors([]);
@@ -35,7 +28,7 @@ function LocationForm({onAddLocation}){
           }).then((r) => {
               setIsLoading(false);
               if (r.ok){
-              r.json().then((data) => takeData(data))
+              r.json().then((data) =>onAddLocation(data))
               } else {
                 r.json().then((err) => setErrors(err.errors));
               }

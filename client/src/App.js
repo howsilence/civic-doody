@@ -18,22 +18,24 @@ function App() {
         setUsersList(usersArr);
       });
   }, []);
-  console.log(usersList)
 
   function handleAddUser(newUser) {
     const updatedUsersArray = [...usersList, newUser];
     setUsersList(updatedUsersArray);
   }
-  //setting state for our session, auto login
+  //setting state for our user session
   const [user, setUser] = useState(null);
-  useEffect(() => {
-    fetch('/me').then((r) => {
-      if (r.ok) {
-        r.json().then((user) => setUser(user))
-      }
-    });
-  }, []);
-  //logout function
+
+  //FOR TESTING ONLY: AUTO LOGIN FUNCTION
+  // useEffect(() => {
+  //   fetch('/me').then((r) => {
+  //     if (r.ok) {
+  //       r.json().then((user) => setUser(user))
+  //     }
+  //   });
+  // }, []);
+
+  // //logout function
   function handleLogoutClick() {
     fetch("/logout", { method: "DELETE" }).then((r) => {
       if (r.ok) {
@@ -41,36 +43,41 @@ function App() {
       }
     });
   }
-     //start location fetching info
-     const [ locations, setLocations ] = useState([])
+  //start location fetching info
+  const [locations, setLocations] = useState([])
 
-     useEffect(() => {
-       fetch("http://localhost:4000/locations/")
-         .then((r) => r.json())
-         .then((locationsObj) => {
-       
-           setLocations(locationsObj);
-         });
-     }, []);
-      function handleAddLocation(newLocation) {
-      const addedLocations = [...locations, newLocation];
-      setLocations(addedLocations);
-    }
+  useEffect(() => {
+    fetch("http://localhost:4000/locations/")
+      .then((r) => r.json())
+      .then((locationsObj) => setLocations(locationsObj));
+  }, []);
 
-    //delete locations
-    function handleDelete(e){
-      const id = e.target.id
-        fetch('http://localhost:4000/locations/' + id, {
-            method: 'DELETE',
-          })
-          .then(resp => resp.json())
-          .then(() => {
-            const updatedLocations = locations.filter(location => {
-            return location.id !== location.id
-            })
-            setLocations(updatedLocations)
-})  
-      }
+  function handleAddLocation(newLocation) {
+    const addedLocations = [...locations, newLocation];
+    setLocations(addedLocations);
+  }
+
+  //delete locations
+  function handleDelete(e){
+    const id = e.target.id
+      fetch('http://localhost:4000/locations/' + id, {
+        method: 'DELETE',
+      })
+        .then(resp => resp.json())
+         .then(() => handleUpdateLocations(e))
+        //   const updatedLocations = locations.filter(location => {
+        //   return location.id !== e.location.id
+        //   })
+        // setLocations(updatedLocations)
+        // })  
+  }
+
+  function handleUpdateLocations(e){
+    const updatedLocations = locations.filter(location => {
+      return location.id !== e.location.id
+      })
+    setLocations(updatedLocations)
+  }
 
   
   return (
@@ -83,7 +90,7 @@ function App() {
            {user ? <LocationForm onAddLocation={handleAddLocation} /> :  <UserLogin  user={user} onLogin={setUser}/> }
           </div>
       
-        <Map locations={locations}  className="map" />
+          <Map locations={locations}  className="map" />
      
       <Switch>
       <Route path="/locationstable">
@@ -93,10 +100,11 @@ function App() {
           <UserSignUp onAddUser={handleAddUser} />
         </Route>
         <Route path="/">
+        
         </Route>
       </Switch>
     </div>
-  </BrowserRouter>
+    </BrowserRouter>
   );
 }
 
