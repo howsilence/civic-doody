@@ -1,12 +1,13 @@
 import React from "react";
 
-function LocationTable({locations}){
+function LocationTable({locations, handleDelete}){
 
 
 
-    function handleDelete(e){
-        fetch("/resolved", { method: "DELETE" })
-    }
+    // function handleDelete(e){
+    //     fetch("/resolved", { method: "DELETE" })
+    // }
+  
 
 
 
@@ -15,8 +16,8 @@ function LocationTable({locations}){
     return(
         <div>
             {locations.map((location) =>
-                <a><p key={location.name}>{location.name}, {location.lat},{location.lng}</p>
-                <button>React</button><button>Resolve</button></a>
+                <div><p key={location.name}>{location.name}, {location.lat},{location.lng}</p>
+                <button>React</button><button onClick={handleDelete} id={location.id}>Resolve</button></div>
             )}
         </div>
     )

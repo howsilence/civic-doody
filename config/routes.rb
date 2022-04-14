@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get "/me", to: "users#show"
 
 
-  delete '/resolved', to: 'locations#destroy'
+  post "users/locations/:id", to: "locations#destroy"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 

@@ -53,9 +53,24 @@ function App() {
          });
      }, []);
       function handleAddLocation(newLocation) {
-      const updatedLocations = [...locations, newLocation];
-      setLocations(updatedLocations);
+      const addedLocations = [...locations, newLocation];
+      setLocations(addedLocations);
     }
+
+    //delete locations
+    function handleDelete(e){
+      const id = e.target.id
+        fetch('http://localhost:4000/locations/' + id, {
+            method: 'DELETE',
+          })
+          .then(resp => resp.json())
+          .then(() => {
+            const updatedLocations = locations.filter(location => {
+            return location.id !== location.id
+            })
+            setLocations(updatedLocations)
+})  
+      }
 
   
   return (
@@ -72,7 +87,7 @@ function App() {
      
       <Switch>
       <Route path="/locationstable">
-          <LocationTable locations={locations} />
+          <LocationTable locations={locations} handleDelete={handleDelete} />
         </Route>
         <Route path="/signup">
           <UserSignUp onAddUser={handleAddUser} />
