@@ -7,48 +7,8 @@ import { GoogleMap, LoadScript, Marker, InfoWindow} from '@react-google-maps/api
     height: '100vh'
     };
 
-    //hard coded test for markers
-    // const places = [
-    //   {
-    //     name: "Location 1",
-    //     location: { 
-    //       lat: 40.7053,
-    //       lng: -74.0131 
-    //     },
-    //   },
-    //   {
-    //     name: "Location 2",
-    //     location: { 
-    //       lat: 40.7053,
-    //       lng: -74.0134
-    //     },
-    //   },
-    //   {
-    //     name: "Location 3",
-    //     location: { 
-    //       lat: 40.7053,
-    //       lng: -74.0130
-    //     },
-    //   },
-    //   {
-    //     name: "Location 4",
-    //     location: { 
-    //       lat: 40.7053,
-    //       lng: -74.0135
-    //     },
-    //   },
-    //   {
-    //     name: "Location 5",
-    //     location: { 
-    //       lat: 40.7053,
-    //       lng: -74.0139
-    //     },
-    //   }
-    // ];
-    
-  
  
-function Map({locations}){
+function Map({locations, handleDelete}){
   //centers the map on flatiron
   // const center = useMemo(() => ({  lat: 40.7053, lng: -74.0139}),[]);
   //options for the map
@@ -59,7 +19,8 @@ function Map({locations}){
   const [ currentPosition, setCurrentPosition ] = useState({})
   // sets ref for the markers
   const markerRef = useRef(null);
-  console.log(currentPosition)
+  console.log(locations,  "locations prop")
+  console.log(currentPosition,  "Position onLoad")
 
   // converts geolocator position into lat long
   const success = position => {
@@ -79,13 +40,15 @@ function Map({locations}){
   //sets state for the currently clicked icon
   const onSelect = item => {
       setSelected(item);
+      console.log(selected, "selected Object")
     }
+    
 
     const onMarkerDragEnd = (e) => {
       const lat = e.latLng.lat();
       const lng = e.latLng.lng();
       setCurrentPosition({ lat, lng})
-      console.log(currentPosition)
+      console.log(currentPosition, "marker drag setPosition")
     };
 
 
@@ -99,7 +62,6 @@ function Map({locations}){
               mapContainerStyle={containerStyle}
               mapContainerClassName="map-container"
               draggable={true}
-              // center={currentPosition.lat ? currentPosition : center}
               center={currentPosition}
               zoom={17}
               options={options}
@@ -107,13 +69,11 @@ function Map({locations}){
             >
             {<>
               {
-            currentPosition.lat ? 
             <Marker
             position={currentPosition}
             onDragEnd={(e) => onMarkerDragEnd(e)}
             ref={() => markerRef}
-            draggable={true} /> :
-            null
+            draggable={true} />
           }
           {
             locations.map(item => {
@@ -122,32 +82,25 @@ function Map({locations}){
                 lng: item.lng
               }
               return (
-              <Marker  
-              key={item.id}  
-              position={LatLng} 
-              onClick={() => onSelect(item)}
-              label={LatLng.toString()}
-              />
+                <InfoWindow 
+                key={item.id}
+                label={item.name}  
+                position={LatLng}
+                clickable={true}
+                onClick={() => onSelect(item)}> 
+                  <div className="infowindow">
+                    <p>{item.name}</p>
+                    <img src='../assets/emojipoo.svg' className="small-image" alt="poo"/>
+                    <p>Lat/Lng: {item.lat},{item.lng}</p>
+                    <p>Description: {item.reactions.content}</p>
+                    <button onClick={handleDelete}>Resolve</button>
+                    <button>React</button>
+                  </div>
+                </InfoWindow>
               )
             })
           }
-         {
-            selected.item ?
-            (
-              <InfoWindow
-              position={selected.item}
-              onCloseClick={() => setSelected({})}
-            >
-              <div className="infowindow">
-                <p>{selected.name}</p>
-                <img src='client/public/assets/emojipoo.svg' className="small-image" alt="rental"/>
-                <p>Latitude: {selected.lat}</p>
-                <p>Longitude: {selected.lng}</p>
-                <p>Description: {selected.name}</p>
-              </div>
-            </InfoWindow>
-            ) : null
-          }
+        
                
           </>}
 
@@ -156,7 +109,28 @@ function Map({locations}){
         
       )
 }
+//working infowindow
+/* <InfoWindow 
+              key={item.id}
+              label={item.name}  
+              position={LatLng}
+              clickable={true}
+              onClick={() => onSelect(item)}
+              
+              ><div className="infowindow">
+              <p>{selected.name}</p>
+              <img src='../assets/emojipoo.svg' className="small-image" alt="poo"/>
+              <p>Latitude: {selected.lat}</p>
+              <p>Longitude: {selected.lng}</p>
+              <p>Description: {selected.name}</p>
+            </div></InfoWindow>
+              ) */
 
-
+              // <Marker 
+              // key={item.id} 
+              // postion={LatLng}
+              // onClick={() => onSelect(item)}
+              // label={item.name}
+              //  />
 
 export default React.memo(Map);

@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     private
 
     def user_params
-        params.permit(:username, :id, :password, :password_confirmation, :location)
+        params.permit(:username, :id, :password, :password_confirmation, :location, :reaction)
     end
 
     def find_user

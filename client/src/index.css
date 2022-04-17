@@ -33,3 +33,20 @@ code {
   height: 100vh;
   width: 80%;
 }
+
+.small-image {
+  width: 2rem;
+  /* padding-left: 1rem; */
+  height: auto
+}
+
+.infowindow {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 0.05em;
+}

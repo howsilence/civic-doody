@@ -21,7 +21,7 @@ class LocationsController < ApplicationController
     private
 
     def location_params
-        params.permit(:id, :name, :lat, :lng)
+        params.permit(:id, :name, :lat, :lng, :reaction)
     end
 
     def find_user

@@ -7,6 +7,7 @@ import Header from './components/Header';
 import UserSignUp from './components/UserSignUp';
 import UserLogin from './components/UserLogin';
 import LocationTable from './components/LocationTable';
+import ReactionPage from './components/ReactionPage';
 
 function App() {
   // handles users and auth
@@ -14,9 +15,7 @@ function App() {
   useEffect(() => {
     fetch("http://localhost:4000/users/")
       .then((r) => r.json())
-      .then((usersArr) => {
-        setUsersList(usersArr);
-      });
+      .then((usersArr) => setUsersList(usersArr));
   }, []);
 
   function handleAddUser(newUser) {
@@ -27,13 +26,13 @@ function App() {
   const [user, setUser] = useState(null);
 
   //FOR TESTING ONLY: AUTO LOGIN FUNCTION
-  // useEffect(() => {
-  //   fetch('/me').then((r) => {
-  //     if (r.ok) {
-  //       r.json().then((user) => setUser(user))
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    fetch('/me').then((r) => {
+      if (r.ok) {
+        r.json().then((user) => setUser(user))
+      }
+    });
+  }, []);
 
   // //logout function
   function handleLogoutClick() {
@@ -44,7 +43,7 @@ function App() {
     });
   }
   //start location fetching info
-  const [locations, setLocations] = useState([])
+  const [locations, setLocations] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:4000/locations/")
@@ -65,11 +64,6 @@ function App() {
       })
         .then(resp => resp.json())
          .then(() => handleUpdateLocations(e))
-        //   const updatedLocations = locations.filter(location => {
-        //   return location.id !== e.location.id
-        //   })
-        // setLocations(updatedLocations)
-        // })  
   }
 
   function handleUpdateLocations(e){
@@ -79,6 +73,20 @@ function App() {
     setLocations(updatedLocations)
   }
 
+  //fetch comments
+  // const [reactions, setReactions] = useState([])
+
+  // useEffect(() => {
+  //   fetch("http://localhost:4000/reactions/")
+  //     .then((r) => r.json())
+  //     .then((reactionsObj) => setReactions(reactionsObj));
+  // }, []);
+
+  // function handleAddReaction(newReaction) {
+  //   const addedReactions = [...reactions, newReaction];
+  //   setReactions(addedReactions);
+  // }
+
   
   return (
     <BrowserRouter>
@@ -87,10 +95,15 @@ function App() {
             <h1>Civic Doody 💩</h1>
             <h2>{user ? `Welcome back! ${user.username}` : "You Must Have An Account To Contribute"}</h2>
             <Header logout={handleLogoutClick} user={user} onLogin={setUser} />
-           {user ? <LocationForm onAddLocation={handleAddLocation} /> :  <UserLogin  user={user} onLogin={setUser}/> }
+           {user ?
+           <> 
+              <LocationForm onAddLocation={handleAddLocation} />
+              {/* <CommentForm onAddComment={handleAddReaction} />  */}
+            </>
+            :  <UserLogin  user={user} onLogin={setUser}/> }
           </div>
       
-          <Map locations={locations}  className="map" />
+         
      
       <Switch>
       <Route path="/locationstable">
@@ -99,8 +112,13 @@ function App() {
         <Route path="/signup">
           <UserSignUp onAddUser={handleAddUser} />
         </Route>
+        <Route path="/reactionpage">
+          <ReactionPage />
+        </Route>
+        <Route path="/map">
+          <Map locations={locations} handleDelete={handleDelete} className="map" />
+        </Route>
         <Route path="/">
-        
         </Route>
       </Switch>
     </div>

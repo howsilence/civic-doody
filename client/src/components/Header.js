@@ -17,6 +17,8 @@ function Header({logout, user}) {
 
 							{(user) ?  <a className="nav-link" href="/locationstable"><button className="btn btn-outline-white mr-2" type="button">Show Locations</button></a> : null}
 
+							{(user) ?  <a className="nav-link" href="/reactionpage"><button className="btn btn-outline-white mr-2" type="button">Show Reactions</button></a> : null}
+
 
 					</div>
 

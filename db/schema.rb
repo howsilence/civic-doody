@@ -26,12 +26,10 @@ ActiveRecord::Schema.define(version: 2022_04_12_191513) do
 
   create_table "reactions", force: :cascade do |t|
     t.string "content"
-    t.bigint "user_id"
-    t.bigint "location_id"
+    t.integer "user_id"
+    t.integer "location_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["location_id"], name: "index_reactions_on_location_id"
-    t.index ["user_id"], name: "index_reactions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

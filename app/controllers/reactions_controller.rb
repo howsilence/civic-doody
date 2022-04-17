@@ -18,7 +18,7 @@ class ReactionsController < ApplicationController
 
     def create
         user = find_user
-        reaction = user.Reactions.create!(reaction_params)
+        reaction = user.reactions.create!(reaction_params)
         render json: reaction, status: :created
     end
 
@@ -28,25 +28,19 @@ class ReactionsController < ApplicationController
         head :no_content
     end
 
-    def update
-        reaction = find_reaction
-        reaction.update!(reaction_params)
-        render json: reaction
-    end
 
     private
     
     def reaction_params
-        params.permit(:id, :content, :location_id, :user_id)
+        params.permit(:id, :content, :location_id, :user_id, :user, :location)
     end
 
     def find_user
         User.find(session[:user_id])
     end
 
-
     def find_reaction
-        reaction.find(params[:id])
+        Reaction.find(params[:id])
     end
 
 
