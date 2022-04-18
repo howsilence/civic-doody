@@ -4,9 +4,9 @@ class ReactionsController < ApplicationController
         if params[:user_id]
             user = find_user
             reactions = user.reactions
-        elsif params[:location_id]
-            location = find_location
-            reactions = location.reactions
+        # elsif params[:location_id]
+        #     location = find_location
+        #     reactions = location.reactions
         else
             reactions = Reaction.all
         end
@@ -22,7 +22,8 @@ class ReactionsController < ApplicationController
     def create
         user = find_user
         location = find_location
-        reaction = user.reactions.create!(reaction_params)
+        reaction = location.reactions.create!(reaction_params)
+      
         render json: reaction, status: :created
     end
 
@@ -42,6 +43,10 @@ class ReactionsController < ApplicationController
     def find_user
         User.find(session[:user_id])
     end
+
+    # def find_user_location
+    #     User.find(session[:user_id]) && Locations.find(params[:location_id])
+    # end
 
     def find_location
         Location.find(params[:location_id])

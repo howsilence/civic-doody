@@ -1,24 +1,27 @@
 
 import React, {useState} from 'react'
 
-function ReactionForm({onAddReaction}){
+function ReactionForm({onAddReaction, locations}){
 
   const [content, setContent] = useState("");
+  const [locationID, setLocationId] = useState(null)
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
 
     function handleSubmit(e) {
+      // const locationID = e.target.id
         e.preventDefault();
         setErrors([]);
         setIsLoading(true);
-          fetch("/reactions", {
+          fetch("/locations/:location_id/reactions", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              content: content
+              content: content,
+              location: locationID
             }),
           }).then((r) => {
               setIsLoading(false);
@@ -37,7 +40,7 @@ function ReactionForm({onAddReaction}){
             <div className="center">
 	            
               <h2>Comment on a Poo</h2>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={(e) => handleSubmit(e)}>
                 <input
                   type="text"
                   className="content"
@@ -46,6 +49,13 @@ function ReactionForm({onAddReaction}){
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                 />
+                 <input type="text" list="location-Ids" />
+                          <datalist id="location-Ids">
+                            {locations.map(
+                            (item) => <option key={item.id} onChange={(e) => setLocationId(e.target.value)} value={locationID}>{item.name}</option>
+                            )}
+                          </datalist>
+
 
                 <button className="formSubmit" type="submit">{isLoading ? "Loading.." : "Add Comment"}</button>
                

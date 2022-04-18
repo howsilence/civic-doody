@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactionForm from "./ReactionForm";
 import ReactionList from "./ReactionList";
 
-function ReactionPage() {
+function ReactionPage({locations}) {
   const [reactions, setReactions] = useState([]);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function ReactionPage() {
         onDeleteReaction={handleDeleteReactions}
       />
       
-      <ReactionForm onAddReaction={handleAddReaction} />
+      <ReactionForm locations={locations} onAddReaction={handleAddReaction} />
     </div>
   );
 }

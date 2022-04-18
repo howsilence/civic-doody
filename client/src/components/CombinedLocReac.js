@@ -15,7 +15,7 @@ function CombinedLocReac({locations}){
     return(
         <div>
             <LocationPage locations={locations}></LocationPage>
-            <ReactionPage ></ReactionPage>
+            <ReactionPage locations={locations}></ReactionPage>
         </div>
     )
 }

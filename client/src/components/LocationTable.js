@@ -2,34 +2,34 @@ import React, { useState } from "react";
 
 function LocationTable({locations, handleDelete, handleAddReaction, reactions}){
     
-    console.log(reactions)
-    const [content, setContent] = useState("");
-    const [errors, setErrors] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    // console.log(reactions)
+    // const [content, setContent] = useState("");
+    // const [errors, setErrors] = useState([]);
+    // const [isLoading, setIsLoading] = useState(false);
   
   
-      function handleSubmit(e) {
-          e.preventDefault();
-          setErrors([]);
-          setIsLoading(true);
-            fetch("/locations/:location_id/reactions", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                content: content,
-                // location_id: locationID
-              }),
-            }).then((r) => {
-                setIsLoading(false);
-                if (r.ok){
-                r.json().then((data) => handleAddReaction(data))
-                } else {
-                  r.json().then((err) => setErrors(err.errors));
-                }
-          });
-        }
+      // function handleSubmit(e) {
+      //     e.preventDefault();
+      //     setErrors([]);
+      //     setIsLoading(true);
+      //       fetch("/reactions", {
+      //         method: "POST",
+      //         headers: {
+      //           "Content-Type": "application/json",
+      //         },
+      //         body: JSON.stringify({
+      //           content: content,
+      //           // location_id: locationID
+      //         }),
+      //       }).then((r) => {
+      //           setIsLoading(false);
+      //           if (r.ok){
+      //           r.json().then((data) => handleAddReaction(data))
+      //           } else {
+      //             r.json().then((err) => setErrors(err.errors));
+      //           }
+      //     });
+      //   }
 
 
     // function handleChange(e) {
@@ -44,18 +44,25 @@ function LocationTable({locations, handleDelete, handleAddReaction, reactions}){
                 <div>
                     <p key={location.id}>{location.name}, {location.lat},{location.lng}</p>
                     <button onClick={handleDelete} id={location.id}>Resolve</button>
-                    <form onSubmit={handleSubmit}>
+                    {/* <form onSubmit={handleSubmit}>
                         <input
                          type="text"
                          className="content"
                          name="content"
                          placeholder="Comment"
                          value={content}
-                         onChange={(e) => setContent(e.target.id.value)}>
-                        </input>
-                        <button className="formSubmit" type="submit" id={location.id}>{isLoading ? "Loading.." : "Add Comment"}</button>
+                         onChange={(e) => setContent(e.target.value)}>
+                        </input> */}
+                        {/* <input type="text" list="locations-dropdown" />
+                          <datalist id="locations-dropdown">
+                            {locations.map(
+                            (location) => <option key={location.id}>{location.name}</option>
+                            )}
+                          </datalist> */}
+
+                        {/* <button className="formSubmit" type="submit" id={location.id}>{isLoading ? "Loading.." : "Add Comment"}</button>
                         <span>{errors.map((err) => (<span key={err}>{err}</span>))}</span>
-                    </form>
+                    </form> */}
                 </div>
             )}
             {/* {reactions.map(reaction => <p>{reaction.content}</p>)} */}
