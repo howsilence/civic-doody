@@ -18,28 +18,24 @@ function ReactionPage() {
     setReactions(updatedReactionsArray);
   }
 
-//   function handleDeleteReactions(id) {
-//     const updatedReactionsArray = reactions.filter((item) => item.id !== id);
-//     setReactions(updatedReactionsArray);
-//   }
-
   function handleDeleteReactions(e){
-    const updatedReactions = reactions.filter(item => {
+    const updatedReactionsArray = reactions.filter(item => {
       return item.id !== e.item.id
       })
-    setReactions(updatedReactions)
+    setReactions(updatedReactionsArray)
   }
 
 
 
   return (
     <div>
-      <ReactionForm onAddReaction={handleAddReaction} />
+      
       <ReactionList
         reactions={reactions}
         onDeleteReaction={handleDeleteReactions}
-        
       />
+      
+      <ReactionForm onAddReaction={handleAddReaction} />
     </div>
   );
 }

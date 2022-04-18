@@ -2,12 +2,12 @@ import './App.css';
 import { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Map from './components/Map';
-import LocationForm from './components/LocationForm';
 import Header from './components/Header';
 import UserSignUp from './components/UserSignUp';
 import UserLogin from './components/UserLogin';
-import LocationTable from './components/LocationTable';
+import LocationPage from './components/LocationPage';
 import ReactionPage from './components/ReactionPage';
+import CombinedLocReac from './components/CombinedLocReac';
 
 function App() {
   // handles users and auth
@@ -50,7 +50,7 @@ function App() {
       .then((r) => r.json())
       .then((locationsObj) => setLocations(locationsObj));
   }, []);
-
+  //update locations state to include new location 
   function handleAddLocation(newLocation) {
     const addedLocations = [...locations, newLocation];
     setLocations(addedLocations);
@@ -65,7 +65,7 @@ function App() {
         .then(resp => resp.json())
          .then(() => handleUpdateLocations(e))
   }
-
+  //update locations state to exclude deleted
   function handleUpdateLocations(e){
     const updatedLocations = locations.filter(location => {
       return location.id !== e.location.id
@@ -96,18 +96,15 @@ function App() {
             <h2>{user ? `Welcome back! ${user.username}` : "You Must Have An Account To Contribute"}</h2>
             <Header logout={handleLogoutClick} user={user} onLogin={setUser} />
            {user ?
-           <> 
-              <LocationForm onAddLocation={handleAddLocation} />
-              {/* <CommentForm onAddComment={handleAddReaction} />  */}
-            </>
+            null
             :  <UserLogin  user={user} onLogin={setUser}/> }
           </div>
       
          
      
       <Switch>
-      <Route path="/locationstable">
-          <LocationTable locations={locations} handleDelete={handleDelete} />
+      <Route path="/locationpage">
+          <LocationPage locations={locations} handleDelete={handleDelete} onAddLocation={handleAddLocation} />
         </Route>
         <Route path="/signup">
           <UserSignUp onAddUser={handleAddUser} />
@@ -117,6 +114,9 @@ function App() {
         </Route>
         <Route path="/map">
           <Map locations={locations} handleDelete={handleDelete} className="map" />
+        </Route>
+        <Route path="/combinedlocreac">
+          <CombinedLocReac locations={locations} />
         </Route>
         <Route path="/">
         </Route>

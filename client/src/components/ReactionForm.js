@@ -30,7 +30,7 @@ function ReactionForm({onAddReaction}){
         });
       }
 
-  
+      // /locations/:location_id/reactions(.:format)
     return(
         <div className="formContainer">
           <section className="form">
@@ -46,8 +46,6 @@ function ReactionForm({onAddReaction}){
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                 />
-
-              
 
                 <button className="formSubmit" type="submit">{isLoading ? "Loading.." : "Add Comment"}</button>
                
