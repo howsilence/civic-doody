@@ -1,13 +1,14 @@
 import './App.css';
 import { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Map from './components/Map';
-import Header from './components/Header';
-import UserSignUp from './components/UserSignUp';
-import UserLogin from './components/UserLogin';
-import LocationPage from './components/LocationPage';
-import ReactionPage from './components/ReactionPage';
-import CombinedLocReac from './components/CombinedLocReac';
+// import Map from './components/Map';
+// import Header from './components/Header';
+// import UserSignUp from './components/UserSignUp';
+// import UserLogin from './components/UserLogin';
+// import LocationPage from './components/LocationPage';
+// import ReactionPage from './components/ReactionPage';
+// import CombinedLocReac from './components/CombinedLocReac';
+import Sidebar from './components/DesignComponents/Sidebar';
 
 function App() {
   // handles users and auth
@@ -47,23 +48,24 @@ function App() {
 
   useEffect(() => {
     fetch("http://localhost:4000/locations/")
-      .then((r) => r.json())
-      .then((locationsObj) => setLocations(locationsObj));
+    .then((r) => r.json())
+    .then((locationsArr) => setLocations(locationsArr));
   }, []);
   //update locations state to include new location 
-  function handleAddLocation(newLocation) {
-    const addedLocations = [...locations, newLocation];
-    setLocations(addedLocations);
+  function handleAddLocation(newLocation){
+    const updatedLocationsArray = [...locations, newLocation];
+    setLocations(updatedLocationsArray);
   }
 
   //delete locations
+  // E.TARGET.id IS THE CULPRIT, GOTTA STOP PROPAGATIONS
   function handleDelete(e){
     const id = e.target.id
-      fetch('http://localhost:4000/locations/' + id, {
-        method: 'DELETE',
-      })
-        .then(resp => resp.json())
-         .then(() => handleUpdateLocations(e))
+    fetch('http://localhost:4000/locations/' + id, {
+      method: 'DELETE',
+    })
+    .then(r => r.json())
+    .then(() => handleUpdateLocations(e))
   }
   //update locations state to exclude deleted
   function handleUpdateLocations(e){
@@ -71,53 +73,18 @@ function App() {
       return location.id !== e.location.id
       })
     setLocations(updatedLocations)
-  }
-
-  //fetch comments
-  // const [reactions, setReactions] = useState([])
-
-  // useEffect(() => {
-  //   fetch("http://localhost:4000/reactions/")
-  //     .then((r) => r.json())
-  //     .then((reactionsObj) => setReactions(reactionsObj));
-  // }, []);
-
-  // function handleAddReaction(newReaction) {
-  //   const addedReactions = [...reactions, newReaction];
-  //   setReactions(addedReactions);
-  // }
+    }
 
   
   return (
     <BrowserRouter>
+     <Sidebar 
+     logout={handleLogoutClick} user={user} onLogin={setUser} handleAddUser={handleAddUser}
+     locations={locations} handleDelete={handleDelete} handleAddLocation={handleAddLocation}
+     />
     <div className="container">
-          <div className="controls">
-            <h1>Civic Doody 💩</h1>
-            <h2>{user ? `Welcome back! ${user.username}` : "You Must Have An Account To Contribute"}</h2>
-            <Header logout={handleLogoutClick} user={user} onLogin={setUser} />
-           {user ?
-            null
-            :  <UserLogin  user={user} onLogin={setUser}/> }
-          </div>
-      
-         
-     
+   
       <Switch>
-      <Route path="/locationpage">
-          <LocationPage locations={locations} handleDelete={handleDelete} onAddLocation={handleAddLocation} />
-        </Route>
-        <Route path="/signup">
-          <UserSignUp onAddUser={handleAddUser} />
-        </Route>
-        <Route path="/reactionpage">
-          <ReactionPage />
-        </Route>
-        <Route path="/map">
-          <Map locations={locations} handleDelete={handleDelete} className="map" />
-        </Route>
-        <Route path="/combinedlocreac">
-          <CombinedLocReac locations={locations} />
-        </Route>
         <Route path="/">
         </Route>
       </Switch>

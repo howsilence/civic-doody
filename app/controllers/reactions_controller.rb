@@ -4,9 +4,6 @@ class ReactionsController < ApplicationController
         if params[:user_id]
             user = find_user
             reactions = user.reactions
-        # elsif params[:location_id]
-        #     location = find_location
-        #     reactions = location.reactions
         else
             reactions = Reaction.all
         end
@@ -21,9 +18,8 @@ class ReactionsController < ApplicationController
 
     def create
         user = find_user
-        location = find_location
-        reaction = location.reactions.create!(reaction_params)
-      
+        # location = find_location
+        reaction = user.reactions.create!(reaction_params)
         render json: reaction, status: :created
     end
 
@@ -37,7 +33,7 @@ class ReactionsController < ApplicationController
     private
     
     def reaction_params
-        params.permit(:id, :content, :location_id, :user_id, :user, :location, :reaction)
+        params.permit(:id, :content, :location_id, :user_id)
     end
 
     def find_user
@@ -48,9 +44,9 @@ class ReactionsController < ApplicationController
     #     User.find(session[:user_id]) && Locations.find(params[:location_id])
     # end
 
-    def find_location
-        Location.find(params[:location_id])
-    end
+    # def find_location
+    #     Location.find(params[:location_id])
+    # end
 
     def find_reaction
         Reaction.find(params[:id])

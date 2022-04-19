@@ -1,39 +1,37 @@
 
 import React, {useState} from 'react'
 
-function ReactionForm({onAddReaction, locations}){
+function ReactionForm({onAddReaction, locations, user}){
 
   const [content, setContent] = useState("");
-  const [locationID, setLocationId] = useState(null)
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [location, setLocation] = useState(null)
 
     function handleSubmit(e) {
-      // const locationID = e.target.id
         e.preventDefault();
+        e.stopPropagation();
         setErrors([]);
         setIsLoading(true);
-          fetch("/locations/:location_id/reactions", {
+          fetch("/reactions", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
               content: content,
-              location: locationID
+              user_id: user.id,
+              location_id: location
             }),
           }).then((r) => {
               setIsLoading(false);
-              if (r.ok){
               r.json().then((data) => onAddReaction(data))
-              } else {
-                r.json().then((err) => setErrors(err.errors));
-              }
-        });
-      }
+        //       } else {
+        //         r.json().then((err) => setErrors(err.errors));
+        //       }
+        // });
+      })}
 
-      // /locations/:location_id/reactions(.:format)
     return(
         <div className="formContainer">
           <section className="form">
@@ -49,17 +47,12 @@ function ReactionForm({onAddReaction, locations}){
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                 />
-                 <input type="text" list="location-Ids" />
-                          <datalist id="location-Ids">
-                            {locations.map(
-                            (item) => <option key={item.id} onChange={(e) => setLocationId(e.target.value)} value={locationID}>{item.name}</option>
-                            )}
-                          </datalist>
-
-
+                <select value={location} onChange={(e) => setLocation(e.target.value)}>
+                  {locations.map(item => <option key={item.name} value={item.id}>{item.name}</option>)}
+                </select>
+                 
                 <button className="formSubmit" type="submit">{isLoading ? "Loading.." : "Add Comment"}</button>
                
-
                 <span>
                   {errors.map((err) => (
                     <span key={err}>{err}</span>

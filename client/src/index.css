@@ -13,7 +13,8 @@ code {
 }
 
 .container {
-  height:100vh;
+  height:35vh;
+  width: 100%;
   display: flex;
 }
 

@@ -1,39 +1,56 @@
 
 import React, {useState} from 'react'
 
-function LocationForm({onAddLocation}){
+function LocationForm({handleAddLocation}){
 
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
   const [name, setName] = useState("");
  
-  const [errors, setErrors] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [errors, setErrors] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
 
+
+    // function handleSubmit(e) {
+    //     e.preventDefault();
+    //     setErrors([]);
+    //     setIsLoading(true);
+    //       fetch("/locations", {
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //           name: name,
+    //           lat: lat,
+    //           lng: lng,
+    //         }),
+    //       }).then((r) => {
+    //           setIsLoading(false);
+    //           if (r.ok){
+    //           r.json().then((newLocation) => onAddLocation(newLocation))
+    //           } else {
+    //             r.json().then((err) => setErrors(err.errors));
+    //           }
+    //     });
+    //   }
 
     function handleSubmit(e) {
-        e.preventDefault();
-        setErrors([]);
-        setIsLoading(true);
-          fetch("/locations", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              name: name,
-              lat: lat,
-              lng: lng,
-            }),
-          }).then((r) => {
-              setIsLoading(false);
-              if (r.ok){
-              r.json().then((data) =>onAddLocation(data))
-              } else {
-                r.json().then((err) => setErrors(err.errors));
-              }
-        });
-      }
+      e.preventDefault();
+      fetch("/locations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          lat: lat,
+          lng: lng,
+        }),
+      })
+        .then((r) => r.json())
+        .then((newLocation) => handleAddLocation(newLocation));
+    }
 
   
     return(
@@ -64,19 +81,19 @@ function LocationForm({onAddLocation}){
                 <input
                   type="text"
                   name="name"
-                  placeholder="Location Name"
+                  placeholder="Location Name/Address"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
 
-                <button className="formSubmit" type="submit">{isLoading ? "Loading.." : "Add New"}</button>
+                <button className="formSubmit" type="submit">Add New</button>
                
 
-                <span>
+                {/* <span>
                   {errors.map((err) => (
                     <span key={err}>{err}</span>
                   ))}
-                </span>
+                </span> */}
 
               </form>
             </div>
