@@ -1,11 +1,14 @@
 import './App.css';
 import { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Map from './components/Map';
-import LocationForm from './components/LocationForm';
-import Header from './components/Header';
-import UserSignUp from './components/UserSignUp';
-import UserLogin from './components/UserLogin';
+// import Map from './components/Map';
+// import Header from './components/Header';
+// import UserSignUp from './components/UserSignUp';
+// import UserLogin from './components/UserLogin';
+// import LocationPage from './components/LocationPage';
+// import ReactionPage from './components/ReactionPage';
+// import CombinedLocReac from './components/CombinedLocReac';
+import Sidebar from './components/DesignComponents/Sidebar';
 
 function App() {
   // handles users and auth
@@ -13,18 +16,17 @@ function App() {
   useEffect(() => {
     fetch("http://localhost:4000/users/")
       .then((r) => r.json())
-      .then((usersArr) => {
-        setUsersList(usersArr);
-      });
+      .then((usersArr) => setUsersList(usersArr));
   }, []);
-  console.log(usersList)
 
   function handleAddUser(newUser) {
     const updatedUsersArray = [...usersList, newUser];
     setUsersList(updatedUsersArray);
   }
-  //setting state for our session, auto login
+  //setting state for our user session
   const [user, setUser] = useState(null);
+
+  //FOR TESTING ONLY: AUTO LOGIN FUNCTION
   useEffect(() => {
     fetch('/me').then((r) => {
       if (r.ok) {
@@ -32,7 +34,8 @@ function App() {
       }
     });
   }, []);
-  //logout function
+
+  // //logout function
   function handleLogoutClick() {
     fetch("/logout", { method: "DELETE" }).then((r) => {
       if (r.ok) {
@@ -40,44 +43,53 @@ function App() {
       }
     });
   }
-     //start location fetching info
-     const [ locations, setLocations ] = useState([])
+  //start location fetching info
+  const [locations, setLocations] = useState([]);
 
-     useEffect(() => {
-       fetch("http://localhost:4000/locations/")
-         .then((r) => r.json())
-         .then((locationsObj) => {
-       
-           setLocations(locationsObj);
-         });
-     }, []);
-      function handleAddLocation(newLocation) {
-      const updatedLocations = [...locations, newLocation];
-      setLocations(updatedLocations);
+  useEffect(() => {
+    fetch("http://localhost:4000/locations/")
+    .then((r) => r.json())
+    .then((locationsArr) => setLocations(locationsArr));
+  }, []);
+  //update locations state to include new location 
+  function handleAddLocation(newLocation){
+    const updatedLocationsArray = [...locations, newLocation];
+    setLocations(updatedLocationsArray);
+  }
+
+  //delete locations
+  // E.TARGET.id IS THE CULPRIT, GOTTA STOP PROPAGATIONS
+  function handleDelete(e){
+    const id = e.target.id
+    fetch('http://localhost:4000/locations/' + id, {
+      method: 'DELETE',
+    })
+    .then(r => r.json())
+    .then(() => handleUpdateLocations(e))
+  }
+  //update locations state to exclude deleted
+  function handleUpdateLocations(e){
+    const updatedLocations = locations.filter(location => {
+      return location.id !== e.location.id
+      })
+    setLocations(updatedLocations)
     }
 
   
   return (
     <BrowserRouter>
+     <Sidebar 
+     logout={handleLogoutClick} user={user} onLogin={setUser} handleAddUser={handleAddUser}
+     locations={locations} handleDelete={handleDelete} handleAddLocation={handleAddLocation}
+     />
     <div className="container">
-          <div className="controls">
-            <h1>Civic Doody 💩</h1>
-            <h2>{user ? `Welcome back! ${user.username}` : "You Must Have An Account To Contribute"}</h2>
-            <Header logout={handleLogoutClick} user={user} onLogin={setUser} />
-           {user ? <LocationForm onAddLocation={handleAddLocation} /> :  <UserLogin  user={user} onLogin={setUser}/> }
-          </div>
-      
-        <Map locations={locations}  className="map" />
-     
+   
       <Switch>
-        <Route path="/signup">
-          <UserSignUp onAddUser={handleAddUser} />
-        </Route>
         <Route path="/">
         </Route>
       </Switch>
     </div>
-  </BrowserRouter>
+    </BrowserRouter>
   );
 }
 

@@ -11,5 +11,11 @@ l3 = Location.create(lat: 44.975652,lng: -93.260845,name: "Klarna Corp", user_id
 # l4 = Location.create(lat: ,lng: ,name: "")
 # l5 = Location.create(lat: ,lng: ,name: "")
 
+puts "Seeding Reactions..."
+r1 = Reaction.create(content: "Ewww This spot again!?" , user_id: User.first.id , location_id: Location.first.id)
+r2 = Reaction.create(content: "Somebody's Poisoned the water hole!", user_id: User.first.id , location_id: Location.first.id)
+r3 = Reaction.create(content: "Cleanup En-Route!", user_id: User.last.id , location_id: Location.last.id)
+
+
 
 puts "Finished Seeding the Database!!!"

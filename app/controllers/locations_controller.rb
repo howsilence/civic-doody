@@ -2,15 +2,15 @@ class LocationsController < ApplicationController
 
 
     def index
-        render json: Location.all, status: :ok
+        render json: Location.all,include: :reactions, status: :ok
     end
 
-    # def create
-    #     # user = find_user
-    #     # location = user.locations.create!(location_params)
-    #     location = Location.create!(location_params)
-    #     render json: location, status: :created
-    # end
+    def create
+        user = find_user
+        location = user.locations.create!(location_params)
+        # location = Location.create!(location_params)
+        render json: location, status: :created
+    end
 
     def destroy
         location = find_location
@@ -20,13 +20,13 @@ class LocationsController < ApplicationController
 
     private
 
-    # def location_params
-    #     params.permit(:id, :name, :lat, :lng)
-    # end
+    def location_params
+        params.permit(:id, :name, :lat, :lng)
+    end
 
-    # def find_user
-    #     User.find(session[:user_id])
-    # end
+    def find_user
+        User.find(session[:user_id])
+    end
 
     def find_location
         Location.find(params[:id])

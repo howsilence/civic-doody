@@ -1,15 +1,18 @@
 import UserSignUp from './UserSignUp';
 import UserLogin from './UserLogin';
 
-function UserAuthPage({handleAddUser, user, onLogin}){
+function UserAuthPage({handleAddUser, onLogin, user}){
 
 
 
 
     return(
         <div>
-           <UserLogin onLogin={onLogin} />
-           <UserSignUp handleAddUser={handleAddUser}/> 
+            <UserSignUp handleAddUser={handleAddUser} user={user}/>
+            
+            <br></br>
+            <UserLogin onLogin={onLogin} user={user} />
+           
         </div>
     )
 }
