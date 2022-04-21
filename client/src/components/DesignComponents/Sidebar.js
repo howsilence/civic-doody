@@ -5,6 +5,7 @@ import LocationPage from "../LocationPage";
 import ReactionPage from "../ReactionPage";
 import Map from "../Map";
 import UserAuthPage from "../UserAuthPage";
+// import LI-In-Bug from './LI-In-Bug'
 
 export default function Sidebar({logout, user, handleAddUser, onLogin, locations, handleDelete, handleAddLocation}) {
   const [collapsed, setCollapsed] = useState(false);
@@ -53,15 +54,15 @@ export default function Sidebar({logout, user, handleAddUser, onLogin, locations
             </a>
           </div>
           <div>
-            <a href="!#" className="btn"  onClick={logout} >
-              {(user) ? "Logout" : "Header"}
-            </a>
+           { (user) ? <a href="!#" className="btn"  onClick={logout} >
+              Log Out
+            </a> : null}
           </div>
           <h1>Civic Doody 💩</h1>
           <a href="!#" className="btn" onClick={() => setShowMap(!showMap)}>{(showMap) ? "Hide Map" : "Show Map"}</a>
-          <a href="!#" className="btn" onClick={() => setToggled(!toggled)}>
+          {/* <a href="!#" className="btn" onClick={() => setToggled(!toggled)}>
               Toggle
-            </a>
+            </a> */}
           </header>
         <main className="content">
           <div className="sidebar-toggler break-point-md">
@@ -70,8 +71,8 @@ export default function Sidebar({logout, user, handleAddUser, onLogin, locations
             {(showMap) ? <Map locations={locations} handleDelete={handleDelete} onAddLocation={handleAddLocation} className="map" /> : null}
         </main>
         <footer className="footer">
-          <a className="footer-links" href="https://github.com/howsilence" ><img className="footer-links" src="./Octocat.png" alt="Github"></img></a>
-          <a className="footer-links" href="https://www.linkedin.com/in/steve-tatton-aa0937233/"><img className="footer-links" src="./LI-In-Bug.png" alt="LinkedIn"></img></a>
+          <a href="https://github.com/howsilence" ><img id="footer-links" src={ require ("./Octocat.png")} alt="Github"></img></a>
+          <a href="https://www.linkedin.com/in/steve-tatton-aa0937233/"><img id="footer-links" src={ require ("./LI-In-Bug.png")} alt="LinkedIn"></img></a>
         </footer>
       </div>
     </div>

@@ -32,10 +32,11 @@ function UserSignUp({onAddUser}){
               r.json().then((err) => setErrors(err.errors));
             }
       });
+    setUsername("");
+    setPassword("");
+    setPasswordConfirmation("");
     }
-    // setUsername("");
-    // setPassword("");
-    // setPasswordConfirmation("");
+  
     return(
         <div className="formContainer">
           <section className="form">

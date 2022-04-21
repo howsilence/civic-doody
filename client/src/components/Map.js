@@ -11,6 +11,8 @@ import { GoogleMap, LoadScript, Marker, InfoWindow} from '@react-google-maps/api
 function Map({locations, handleDelete}){
   //centers the map on flatiron
   const center = useMemo(() => ({  lat: 40.7053, lng: -74.0139}),[]);
+
+  const codedMarker = useMemo(() => ({  lat: 40.704978735779115, lng: -74.01362373247149}),[]);
   //options for the map
   const options = useMemo(() =>({ disableDefaultUI: true, clickableIcons: false, mapId: 'ffba16a32e78594c'}),[]);
   
@@ -18,7 +20,8 @@ function Map({locations, handleDelete}){
   const [ currentPosition, setCurrentPosition ] = useState({})
   // sets ref for the markers
   const markerRef = useRef(null);
-  // console.log(locations,  "locations prop")
+
+  const [light, setLight] = useState(false);
 
 
   // converts geolocator position into lat long
@@ -68,7 +71,7 @@ function Map({locations, handleDelete}){
               {
                 <Marker
                   // position={currentPosition}
-                  position={center}
+                  position={codedMarker}
                   onDragEnd={(e) => onMarkerDragEnd(e)}
                   ref={() => markerRef}
                   label="YOU"
