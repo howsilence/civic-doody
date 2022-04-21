@@ -17,7 +17,7 @@ body {
   box-shadow: 1px 1px 4px #9aa0b9;
   display: flex;
   align-items: center;
-  padding: 20px;
+  flex-wrap: nowrap;
 }
 
 .layout .content {
@@ -38,9 +38,9 @@ body {
   text-align: center;
 }
 h1 {
-  margin-left: 20px;
-  margin-right: 20px;
-  flex-wrap: nowrap;
+  padding-left: 1em;
+  padding-right: 1em;
+  width: 9em;
 }
 a.btn {
   display: inline-block;
@@ -54,6 +54,17 @@ a.btn {
   text-align: center;
   border-radius: 4px;
   font-size: 0.9rem;
+}
+#sidebar-btn{
+  height: 4em;
+  width: 5em;
+  padding-left: 4px;
+}
+
+#footer-links{
+  margin-left: 2em;
+  height: 2.5em;
+  width: 3em;
 }
 
 a.btn:hover {

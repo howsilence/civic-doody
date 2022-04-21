@@ -8,38 +8,40 @@ import { GoogleMap, LoadScript, Marker, InfoWindow} from '@react-google-maps/api
     };
 
  
-function Map({locations, handleDelete}){
+function Map({locations, handleDelete, toggle, setToggle}){
   //centers the map on flatiron
   const center = useMemo(() => ({  lat: 40.7053, lng: -74.0139}),[]);
+
+  const codedMarker = useMemo(() => ({  lat: 40.704978735779115, lng: -74.01362373247149}),[]);
   //options for the map
-  const options = useMemo(() =>({ disableDefaultUI: true, clickableIcons: false, mapId: '80829c3ba6592d3f'}),[]);
+  const options = useMemo(() =>({ disableDefaultUI: true, clickableIcons: false, mapId: 'ffba16a32e78594c'}),[]);
   
+  const optionsDark = useMemo(() =>({ disableDefaultUI: true, clickableIcons: false, mapId: '80829c3ba6592d3f'}),[]);
+
   //sets the current location of the user as state
   const [ currentPosition, setCurrentPosition ] = useState({})
   // sets ref for the markers
   const markerRef = useRef(null);
-  // console.log(locations,  "locations prop")
+
+  
 
 
   // converts geolocator position into lat long
-  //success = a position object which contains current position that is made up of lat and lng
+  // success = a position object which contains current position that is made up of lat and lng
   const success = position => {
-    console.log("start position callback")
+    // console.log("start position callback")
     const currentPosition = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     }
     setCurrentPosition(currentPosition);
-    console.log("end position callback")
+    // console.log("end position callback")
   };
   
 
   // fetches current user's position through google maps geolocation
   useEffect(() => {
-    // console.log("loaded")
-    navigator.geolocation.getCurrentPosition(success);
-    console.log(success, "Geolocation: success loaded");
-    
+    navigator.geolocation.getCurrentPosition(success);   
   },[])
  
   //grabs the value of the "YOU" marker and converts it to lat long
@@ -51,30 +53,31 @@ function Map({locations, handleDelete}){
       console.log(currentPosition, "onMarkerDragEnd value")
     };
 
-
+    // replace in loadscript and options
+    // light mode 'ffba16a32e78594c'
+    // dark mode '80829c3ba6592d3f'
       return (
           <LoadScript
             googleMapsApiKey={"AIzaSyAqrlzhy6dWslfaHwhGbn1a6eYNzOOnVV4"}
-            mapIds={['80829c3ba6592d3f']}
+            mapIds={(toggle) ? ['80829c3ba6592d3f'] : ['ffba16a32e78594c']}
           >
             
             <GoogleMap
               mapContainerStyle={containerStyle}
               mapContainerClassName="map-container"
-              center={currentPosition.lat ? currentPosition : center}
+              center={center}
               zoom={14}
-              options={options}
+              options={(toggle) ? optionsDark : options}
             >
             {<>
               {
                 <Marker
-                  position={currentPosition}
-                  // position={center}
+                  // position={currentPosition}
+                  position={codedMarker}
                   onDragEnd={(e) => onMarkerDragEnd(e)}
                   ref={() => markerRef}
                   label="YOU"
                   draggable={true}
-                  size={14}
                   // onClick={console.log(currentPosition)}
                   />
                 }
@@ -93,7 +96,7 @@ function Map({locations, handleDelete}){
                       <p>{item.name}</p>
                       <img src='../assets/emojipoo.svg' className="small-image" alt="poo"/>
                       <p>Lat/Lng: {item.lat},{item.lng}</p>
-                      <p>Description: </p>
+                      {/* <p>Description: </p> */}
                       <button id={item.id} onClick={handleDelete}>Resolve</button>
                     </div>
                 </InfoWindow>

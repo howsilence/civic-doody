@@ -26,7 +26,7 @@ function App() {
   //setting state for our user session
   const [user, setUser] = useState(null);
 
-  //FOR TESTING ONLY: AUTO LOGIN FUNCTION
+  
   useEffect(() => {
     fetch('/me').then((r) => {
       if (r.ok) {
@@ -82,13 +82,10 @@ function App() {
      logout={handleLogoutClick} user={user} onLogin={setUser} handleAddUser={handleAddUser}
      locations={locations} handleDelete={handleDelete} handleAddLocation={handleAddLocation}
      />
-    <div className="container">
-   
       <Switch>
         <Route path="/">
         </Route>
       </Switch>
-    </div>
     </BrowserRouter>
   );
 }

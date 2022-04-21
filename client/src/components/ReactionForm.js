@@ -4,14 +4,11 @@ import React, {useState} from 'react'
 function ReactionForm({onAddReaction, locations, user}){
 
   const [content, setContent] = useState("");
-  const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [location, setLocation] = useState(null)
 
     function handleSubmit(e) {
         e.preventDefault();
-        e.stopPropagation();
-        setErrors([]);
         setIsLoading(true);
           fetch("/reactions", {
             method: "POST",
@@ -26,10 +23,6 @@ function ReactionForm({onAddReaction, locations, user}){
           }).then((r) => {
               setIsLoading(false);
               r.json().then((data) => onAddReaction(data))
-        //       } else {
-        //         r.json().then((err) => setErrors(err.errors));
-        //       }
-        // });
       })}
 
     return(
@@ -53,12 +46,6 @@ function ReactionForm({onAddReaction, locations, user}){
                  
                 <button className="formSubmit" type="submit">{isLoading ? "Loading.." : "Add Comment"}</button>
                
-                <span>
-                  {errors.map((err) => (
-                    <span key={err}>{err}</span>
-                  ))}
-                </span>
-
               </form>
             </div>
           </section>

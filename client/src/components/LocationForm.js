@@ -7,33 +7,6 @@ function LocationForm({handleAddLocation}){
   const [lng, setLng] = useState("");
   const [name, setName] = useState("");
  
-  // const [errors, setErrors] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-
-
-    // function handleSubmit(e) {
-    //     e.preventDefault();
-    //     setErrors([]);
-    //     setIsLoading(true);
-    //       fetch("/locations", {
-    //         method: "POST",
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify({
-    //           name: name,
-    //           lat: lat,
-    //           lng: lng,
-    //         }),
-    //       }).then((r) => {
-    //           setIsLoading(false);
-    //           if (r.ok){
-    //           r.json().then((newLocation) => onAddLocation(newLocation))
-    //           } else {
-    //             r.json().then((err) => setErrors(err.errors));
-    //           }
-    //     });
-    //   }
 
     function handleSubmit(e) {
       e.preventDefault();
@@ -88,12 +61,6 @@ function LocationForm({handleAddLocation}){
 
                 <button className="formSubmit" type="submit">Add New</button>
                
-
-                {/* <span>
-                  {errors.map((err) => (
-                    <span key={err}>{err}</span>
-                  ))}
-                </span> */}
 
               </form>
             </div>
