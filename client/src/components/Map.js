@@ -8,7 +8,7 @@ import { GoogleMap, LoadScript, Marker, InfoWindow} from '@react-google-maps/api
     };
 
  
-function Map({locations, handleDelete}){
+function Map({locations, handleDelete, toggle, setToggle}){
   //centers the map on flatiron
   const center = useMemo(() => ({  lat: 40.7053, lng: -74.0139}),[]);
 
@@ -16,12 +16,14 @@ function Map({locations, handleDelete}){
   //options for the map
   const options = useMemo(() =>({ disableDefaultUI: true, clickableIcons: false, mapId: 'ffba16a32e78594c'}),[]);
   
+  const optionsDark = useMemo(() =>({ disableDefaultUI: true, clickableIcons: false, mapId: '80829c3ba6592d3f'}),[]);
+
   //sets the current location of the user as state
   const [ currentPosition, setCurrentPosition ] = useState({})
   // sets ref for the markers
   const markerRef = useRef(null);
 
-  const [light, setLight] = useState(false);
+  
 
 
   // converts geolocator position into lat long
@@ -57,7 +59,7 @@ function Map({locations, handleDelete}){
       return (
           <LoadScript
             googleMapsApiKey={"AIzaSyAqrlzhy6dWslfaHwhGbn1a6eYNzOOnVV4"}
-            mapIds={['ffba16a32e78594c']}
+            mapIds={(toggle) ? ['80829c3ba6592d3f'] : ['ffba16a32e78594c']}
           >
             
             <GoogleMap
@@ -65,7 +67,7 @@ function Map({locations, handleDelete}){
               mapContainerClassName="map-container"
               center={center}
               zoom={14}
-              options={options}
+              options={(toggle) ? optionsDark : options}
             >
             {<>
               {

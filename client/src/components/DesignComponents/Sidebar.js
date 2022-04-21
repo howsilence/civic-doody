@@ -14,6 +14,7 @@ export default function Sidebar({logout, user, handleAddUser, onLogin, locations
   const [showLocations, setShowLocations] = useState(false);
   const [showReactions, setShowReactions] = useState(false);
   const [showMap, setShowMap] = useState(false);
+  const [toggle, setToggle] = useState(false);
 
   return (
     <div className={`layout has-sidebar ${rtl ? "rtl" : ""}`}>
@@ -60,15 +61,15 @@ export default function Sidebar({logout, user, handleAddUser, onLogin, locations
           </div>
           <h1>Civic Doody 💩</h1>
           <a href="!#" className="btn" onClick={() => setShowMap(!showMap)}>{(showMap) ? "Hide Map" : "Show Map"}</a>
-          {/* <a href="!#" className="btn" onClick={() => setToggled(!toggled)}>
-              Toggle
-            </a> */}
+          <a href="!#" className="btn" onClick={() => setToggle(!toggle)}>
+              {(toggle) ? "Dark Mode" : "Light Mode"}
+            </a>
           </header>
         <main className="content">
           <div className="sidebar-toggler break-point-md">
           </div>
             {(user) ? null : <UserAuthPage user={user} handleAddUser={handleAddUser} onLogin={onLogin}  />}
-            {(showMap) ? <Map locations={locations} handleDelete={handleDelete} onAddLocation={handleAddLocation} className="map" /> : null}
+            {(showMap) ? <Map locations={locations} handleDelete={handleDelete} onAddLocation={handleAddLocation} toggle={toggle} setToggle={setToggle} className="map" /> : null}
         </main>
         <footer className="footer">
           <a href="https://github.com/howsilence" ><img id="footer-links" src={ require ("./Octocat.png")} alt="Github"></img></a>
