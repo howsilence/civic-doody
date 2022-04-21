@@ -27,9 +27,9 @@ export default function Sidebar({logout, user, handleAddUser, onLogin, locations
 	    		<div className="form-inline">
 			
 						{(user) ?  
-            <a href="!#" className="btn" onClick={() => setShowLocations(!showLocations)}>{(showLocations) ? "Hide Locations" : "Show Locations"}</a> : null}{(showLocations) ? <LocationPage locations={locations} handleDelete={handleDelete} handleAddLocation={handleAddLocation}/> : null}
+            <a href="!#" className="btn" id="sidebar-btn" onClick={() => setShowLocations(!showLocations)}>{(showLocations) ? "Hide Locations" : "Show Locations"}</a> : null}{(showLocations) ? <LocationPage locations={locations} handleDelete={handleDelete} handleAddLocation={handleAddLocation}/> : null}
 
-            {(user) ?  <a href="!#" className="btn" onClick={() => setShowReactions(!showReactions)}>{(showReactions) ? "Hide Reactions" : "Show Reactions"}</a> : null}
+            {(user) ?  <a href="!#" id="sidebar-btn" className="btn" onClick={() => setShowReactions(!showReactions)}>{(showReactions) ? "Hide Reactions" : "Show Reactions"}</a> : null}
             {(showReactions) ? <ReactionPage locations={locations} user={user} /> : null}
 
 					</div>
@@ -65,12 +65,14 @@ export default function Sidebar({logout, user, handleAddUser, onLogin, locations
           </header>
         <main className="content">
           <div className="sidebar-toggler break-point-md">
-          
           </div>
             {(user) ? null : <UserAuthPage user={user} handleAddUser={handleAddUser} onLogin={onLogin}  />}
             {(showMap) ? <Map locations={locations} handleDelete={handleDelete} onAddLocation={handleAddLocation} className="map" /> : null}
         </main>
-        <footer className="footer">Footer</footer>
+        <footer className="footer">
+          <a className="footer-links" href="https://github.com/howsilence" ><img className="footer-links" src="./Octocat.png" alt="Github"></img></a>
+          <a className="footer-links" href="https://www.linkedin.com/in/steve-tatton-aa0937233/"><img className="footer-links" src="./LI-In-Bug.png" alt="LinkedIn"></img></a>
+        </footer>
       </div>
     </div>
   );
