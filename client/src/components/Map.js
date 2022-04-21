@@ -22,24 +22,21 @@ function Map({locations, handleDelete}){
 
 
   // converts geolocator position into lat long
-  //success = a position object which contains current position that is made up of lat and lng
+  // success = a position object which contains current position that is made up of lat and lng
   const success = position => {
-    console.log("start position callback")
+    // console.log("start position callback")
     const currentPosition = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     }
     setCurrentPosition(currentPosition);
-    console.log("end position callback")
+    // console.log("end position callback")
   };
   
 
   // fetches current user's position through google maps geolocation
   useEffect(() => {
-    // console.log("loaded")
-    navigator.geolocation.getCurrentPosition(success);
-    console.log(success, "Geolocation: success loaded");
-    
+    navigator.geolocation.getCurrentPosition(success);   
   },[])
  
   //grabs the value of the "YOU" marker and converts it to lat long
@@ -63,15 +60,15 @@ function Map({locations, handleDelete}){
             <GoogleMap
               mapContainerStyle={containerStyle}
               mapContainerClassName="map-container"
-              center={currentPosition.lat ? currentPosition : center}
+              center={center}
               zoom={14}
               options={options}
             >
             {<>
               {
                 <Marker
-                  position={currentPosition}
-                  // position={center}
+                  // position={currentPosition}
+                  position={center}
                   onDragEnd={(e) => onMarkerDragEnd(e)}
                   ref={() => markerRef}
                   label="YOU"
