@@ -9,8 +9,8 @@ l1 = Location.create(lat: 40.74757,lng: -73.91255,name: "Home", user_id: u1.id)
 l2 = Location.create(lat: 40.7053,lng: -74.0139,name: "School", user_id: u2.id)
 l3 = Location.create(lat: 44.975652,lng: -93.260845,name: "Klarna Corp", user_id: u3.id)
 
-40.times do
-    Location.create(lat: Faker::Address.latitude, lng: Faker::Address.longitude, name: Faker::Address.street_address, user_id: u1.id  )
+10.times do
+    Location.create(lat: Faker::Address.latitude, lng: Faker::Address.longitude, name: Faker::Address.street_address, user_id: User.first.id  )
 end
 
 puts "Seeding Reactions..."
