@@ -26,7 +26,7 @@ function App() {
   //setting state for our user session
   const [user, setUser] = useState(null);
 
-  //FOR TESTING ONLY: AUTO LOGIN FUNCTION
+  
   useEffect(() => {
     fetch('/me').then((r) => {
       if (r.ok) {

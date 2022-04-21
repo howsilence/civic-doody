@@ -12,7 +12,7 @@ function Map({locations, handleDelete}){
   //centers the map on flatiron
   const center = useMemo(() => ({  lat: 40.7053, lng: -74.0139}),[]);
   //options for the map
-  const options = useMemo(() =>({ disableDefaultUI: true, clickableIcons: false, mapId: '80829c3ba6592d3f'}),[]);
+  const options = useMemo(() =>({ disableDefaultUI: true, clickableIcons: false, mapId: 'ffba16a32e78594c'}),[]);
   
   //sets the current location of the user as state
   const [ currentPosition, setCurrentPosition ] = useState({})
@@ -51,7 +51,7 @@ function Map({locations, handleDelete}){
       console.log(currentPosition, "onMarkerDragEnd value")
     };
 
-
+    // replace in loadscript and options
     // light mode 'ffba16a32e78594c'
     // dark mode '80829c3ba6592d3f'
       return (
@@ -76,7 +76,6 @@ function Map({locations, handleDelete}){
                   ref={() => markerRef}
                   label="YOU"
                   draggable={true}
-                  size={14}
                   // onClick={console.log(currentPosition)}
                   />
                 }
@@ -95,7 +94,7 @@ function Map({locations, handleDelete}){
                       <p>{item.name}</p>
                       <img src='../assets/emojipoo.svg' className="small-image" alt="poo"/>
                       <p>Lat/Lng: {item.lat},{item.lng}</p>
-                      <p>Description: </p>
+                      {/* <p>Description: </p> */}
                       <button id={item.id} onClick={handleDelete}>Resolve</button>
                     </div>
                 </InfoWindow>

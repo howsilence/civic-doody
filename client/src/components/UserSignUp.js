@@ -33,7 +33,9 @@ function UserSignUp({onAddUser}){
             }
       });
     }
-
+    // setUsername("");
+    // setPassword("");
+    // setPasswordConfirmation("");
     return(
         <div className="formContainer">
           <section className="form">
