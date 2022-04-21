@@ -82,13 +82,10 @@ function App() {
      logout={handleLogoutClick} user={user} onLogin={setUser} handleAddUser={handleAddUser}
      locations={locations} handleDelete={handleDelete} handleAddLocation={handleAddLocation}
      />
-    <div className="container">
-   
       <Switch>
         <Route path="/">
         </Route>
       </Switch>
-    </div>
     </BrowserRouter>
   );
 }
