@@ -52,10 +52,12 @@ function Map({locations, handleDelete}){
     };
 
 
+    // light mode 'ffba16a32e78594c'
+    // dark mode '80829c3ba6592d3f'
       return (
           <LoadScript
             googleMapsApiKey={"AIzaSyAqrlzhy6dWslfaHwhGbn1a6eYNzOOnVV4"}
-            mapIds={['80829c3ba6592d3f']}
+            mapIds={['ffba16a32e78594c']}
           >
             
             <GoogleMap
