@@ -58,7 +58,7 @@ function Map({locations, handleDelete, toggle, setToggle}){
     // dark mode '80829c3ba6592d3f'
       return (
           <LoadScript
-            googleMapsApiKey={"AIzaSyAqrlzhy6dWslfaHwhGbn1a6eYNzOOnVV4"}
+            googleMapsApiKey={"this_is_where_my_API_Key_goes"}
             mapIds={(toggle) ? ['80829c3ba6592d3f'] : ['ffba16a32e78594c']}
           >
             
